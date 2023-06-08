@@ -8,3 +8,14 @@
   display: inline-block;
   border-radius: 4px;
 }
+
+.btn__block {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.img__block {
+  margin-top: 15px;
+  position: relative;
+}
