@@ -40,7 +40,7 @@ selectors.btnBottomBlock.addEventListener("click", (event) => {
   const target = event.target;
 
   if (target.closest(".btn__block-field span")) {
-    currentImg = target.attributes.index.value;
+    currentImg = +target.attributes.index.value;
     updateHtmlForButtons();
   }
 });
