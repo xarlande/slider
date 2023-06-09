@@ -42,7 +42,7 @@ const updateImgBlockStyle = () => {
   }
   if (currentShowType === 3) {
     selectors.imgBlock.style.transform = `translate3d(${
-      -(1330/3) * currentImgIndex
+      -(1330 / 3) * currentImgIndex
     }px, 0px, 0px)`;
   }
 };
@@ -62,14 +62,14 @@ selectors.btnBottomBlock.addEventListener("click", (event) => {
 });
 
 selectors.nextBtn.addEventListener("click", () => {
-  if (currentShowType === 3){
+  if (currentShowType === 3) {
     if (maxImgIndex < currentImgIndex + 3) {
-      currentImgIndex = 0
+      currentImgIndex = 0;
     } else {
-      currentImgIndex += 3
+      currentImgIndex += 3;
     }
   }
-  if (currentShowType === 1){
+  if (currentShowType === 1) {
     if (maxImgIndex < currentImgIndex + 1) {
       currentImgIndex = 0;
     } else {
@@ -79,18 +79,16 @@ selectors.nextBtn.addEventListener("click", () => {
   updateDOM();
 });
 selectors.backBtn.addEventListener("click", () => {
-  if (currentShowType === 3){
-    if (currentImgIndex > 2){
-      currentImgIndex -= 3
-    }
-    else if (currentImgIndex > 0){
-      currentImgIndex = 0
-    }
-    else {
+  if (currentShowType === 3) {
+    if (currentImgIndex > 2) {
+      currentImgIndex -= 3;
+    } else if (currentImgIndex > 0) {
+      currentImgIndex = 0;
+    } else {
       currentImgIndex = maxImgIndex - 2;
     }
   }
-  if (currentShowType === 1){
+  if (currentShowType === 1) {
     if (currentImgIndex > 0) {
       currentImgIndex -= 1;
     } else {
@@ -101,21 +99,38 @@ selectors.backBtn.addEventListener("click", () => {
 });
 selectors.typeShowSelect.addEventListener("change", (event) => {
   currentShowType = +event.target.value;
-  currentImgIndex = 0
+  currentImgIndex = 0;
   updateStyleForImage();
-  updateDOM()
+  updateDOM();
 });
 
 const updateStyleForImage = () => {
   selectors.allImg.forEach((item) => {
     item.style.width = `${100 / currentShowType}%`;
+    item.style.borderRadius = "4px";
+    item.style.height = "100%";
   });
 };
 updateDOM();
 updateStyleForImage();
 
-class Slider {
-  constructor() {}
-}
-
-const Sli = new Slider();
+// class Father {}
+//
+// class Slider extends Father {
+//   #currentImgIndex = 0;
+//   currentShowType = 1;
+//   allImgLength = selectors.allImg.length;
+//   maxImgIndex = this.allImgLength - 1;
+//   active = " ● ";
+//   notActive = " ○ ";
+// }
+// class TabMenu extends Father {
+//
+// }
+//
+// const Sli = new Father();
+//
+// const test = new Slider();
+// const test2 = new Slider();
+//
+// console.log(test2.currentImgIndex)
