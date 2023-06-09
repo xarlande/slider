@@ -46,7 +46,7 @@
 
 .btn__block-field {
   background: rgba(255, 255, 255, 0.6);
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 5px 10px;
   display: flex;
   gap: 10px;
@@ -60,10 +60,12 @@
   margin-top: 15px;
   position: relative;
   overflow: hidden;
+  border-radius: 4px;
 }
 
 .img__block {
   display: flex;
   align-items: center;
   gap: 20px;
+  transition: all, 1s;
 }
