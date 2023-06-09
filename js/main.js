@@ -2,7 +2,7 @@ import { selectorsQuery } from "./modules/consol.js";
 
 const selectors = selectorsQuery();
 
-let currentImg = 0;
+let currentImgIndex = 0;
 
 const allImgLength = selectors.allImg.length;
 const maxCurrentImg = allImgLength - 1;
@@ -18,7 +18,7 @@ const generateBtn = () => {
     itemsArr.push(notActive);
   }
 
-  itemsArr.splice(currentImg, 1, active);
+  itemsArr.splice(currentImgIndex, 1, active);
 
   let index = 0;
 
@@ -33,33 +33,39 @@ const generateBtn = () => {
 
 const updateHtmlForButtons = () =>
   (selectors.btnBottomBlock.innerHTML = generateBtn());
+const updateImgBlockStyle = () => selectors.imgBlock.style.transform = `translate3d(${-1300 * currentImgIndex}px, 0px, 0px)`
+
 
 updateHtmlForButtons();
+
 
 selectors.btnBottomBlock.addEventListener("click", (event) => {
   const target = event.target;
 
   if (target.closest(".btn__block-field span")) {
-    currentImg = +target.attributes.index.value;
+    currentImgIndex = +target.attributes.index.value;
     updateHtmlForButtons();
+    updateImgBlockStyle()
   }
 });
 
 selectors.nextBtn.addEventListener("click", () => {
-  if (maxCurrentImg < currentImg + 1) {
-    currentImg = 0;
+  if (maxCurrentImg < currentImgIndex + 1) {
+    currentImgIndex = 0;
   } else {
-    currentImg += 1;
+    currentImgIndex += 1;
   }
   updateHtmlForButtons();
+  updateImgBlockStyle()
 });
 selectors.backBtn.addEventListener("click", () => {
-  if (currentImg > 0) {
-    currentImg -= 1;
+  if (currentImgIndex > 0) {
+    currentImgIndex -= 1;
   } else {
-    currentImg = maxCurrentImg;
+    currentImgIndex = maxCurrentImg;
   }
   updateHtmlForButtons();
+  updateImgBlockStyle()
 });
 
 class Slider {
