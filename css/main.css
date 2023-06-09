@@ -3,16 +3,53 @@
 
 .btn {
   padding: 12px 24px;
+  box-sizing: border-box;
   background-color: red;
   color: white;
   display: inline-block;
   border-radius: 4px;
+  top: calc(50% - 22px);
+  cursor: pointer;
+}
+
+.btn__next {
+  right: 0;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
+}
+
+.btn__back {
+  left: 0;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+  display: flex;
+  align-items: center;
 }
 
 .btn__block {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.btn__block-field {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  padding: 5px 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn__block-field span {
+  cursor: pointer;
 }
 
 .img__block {
