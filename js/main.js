@@ -2,14 +2,16 @@ import { selectorsQuery } from "./modules/consol.js";
 
 const selectors = selectorsQuery();
 
-class Carousel {
+class Father {
   constructor() {
     this.currentImgIndex = 0;
     this.currentShowType = 1;
     this.active = " ● ";
     this.notActive = " ○ ";
   }
+}
 
+class Carousel extends Father {
   getAllImgLength() {
     return selectors.allImg.length;
   }
@@ -32,7 +34,7 @@ class Carousel {
 
     itemsArr.forEach((item) => {
       itemsString =
-          itemsString + `<span index='${index}'> ${item} </span>` + "\n";
+        itemsString + `<span index='${index}'> ${item} </span>` + "\n";
       index += 1;
     });
 
@@ -46,12 +48,12 @@ class Carousel {
   updateImgBlockStyle() {
     if (this.currentShowType === 1) {
       selectors.imgBlock.style.transform = `translate3d(${
-          -1300 * this.currentImgIndex
+        -1300 * this.currentImgIndex
       }px, 0px, 0px)`;
     }
     if (this.currentShowType === 3) {
       selectors.imgBlock.style.transform = `translate3d(${
-          -(1330 / 3) * this.currentImgIndex
+        -(1330 / 3) * this.currentImgIndex
       }px, 0px, 0px)`;
     }
   }
@@ -124,10 +126,22 @@ class Carousel {
   }
 
   init() {
-    selectors.btnBottomBlock.addEventListener("click", this.handleButtonClick.bind(this));
-    selectors.nextBtn.addEventListener("click", this.handleNextButtonClick.bind(this));
-    selectors.backBtn.addEventListener("click", this.handleBackButtonClick.bind(this));
-    selectors.typeShowSelect.addEventListener("change", this.handleTypeShowSelectChange.bind(this));
+    selectors.btnBottomBlock.addEventListener(
+      "click",
+      this.handleButtonClick.bind(this)
+    );
+    selectors.nextBtn.addEventListener(
+      "click",
+      this.handleNextButtonClick.bind(this)
+    );
+    selectors.backBtn.addEventListener(
+      "click",
+      this.handleBackButtonClick.bind(this)
+    );
+    selectors.typeShowSelect.addEventListener(
+      "change",
+      this.handleTypeShowSelectChange.bind(this)
+    );
     this.updateDOM();
     this.updateStyleForImage();
   }
@@ -135,7 +149,6 @@ class Carousel {
 
 const NewCarousel = new Carousel();
 NewCarousel.init();
-
 
 // class Father {}
 //
