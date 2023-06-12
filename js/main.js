@@ -161,11 +161,40 @@ class Carousel extends Father {
 }
 
 class tabMenu extends Father {
-  constructor(tabMenu) {
-    super(tabMenu);
+  constructor(elTabMenu, imgArr) {
+    super(elTabMenu);
+    this.generateHtml(imgArr);
     this.getElements();
     this.init();
-    this.generateTabMenuButtons();
+  }
+
+  generateHtml(imgArr) {
+    const tabMenuDiv = document.createElement("div");
+    tabMenuDiv.setAttribute("class", "tab-menu");
+
+    const headerDiv = document.createElement("div");
+    headerDiv.setAttribute("class", "tab-menu__header");
+
+    tabMenuDiv.appendChild(headerDiv);
+
+    const bodyDiv = document.createElement("div");
+    bodyDiv.setAttribute("class", "tab-menu__body");
+
+    for (let j = 0; j < imgArr.length; j++) {
+      const imgElement = document.createElement("img");
+      imgElement.setAttribute("src", imgArr[j]);
+      imgElement.setAttribute("alt", "empty");
+
+      if (j === 0) {
+        imgElement.setAttribute("class", "active");
+      }
+
+      bodyDiv.appendChild(imgElement);
+    }
+
+    tabMenuDiv.appendChild(bodyDiv);
+
+    this.elementWrapper.appendChild(tabMenuDiv);
   }
 
   getElements() {
@@ -181,6 +210,7 @@ class tabMenu extends Father {
       "click",
       this.activatedButtonsForHeader.bind(this)
     );
+    this.generateTabMenuButtons();
   }
 
   allImageLength() {
@@ -212,9 +242,6 @@ class tabMenu extends Father {
     if (target.closest('span')){
       this.getElements()
 
-      console.log(event.target);
-      console.log(this.allHeaderBtn);
-
       this.allHeaderBtn.forEach(item => {
         item.classList.remove('active')
       })
@@ -231,8 +258,18 @@ class tabMenu extends Father {
   }
 }
 
+
+const imageSources = [
+  "https://wallpaperaccess.com/full/3209967.jpg",
+  "https://wallpaperaccess.com/full/3209964.jpg",
+  "https://wallpaperaccess.com/full/1492158.jpg",
+  "https://wallpaperaccess.com/full/1492161.jpg",
+  "https://wallpaperaccess.com/full/3209971.jpg",
+  "https://wallpaperaccess.com/full/898820.jpg"
+];
+
 new Carousel(document.querySelector("#slider"));
 new Carousel(document.querySelector("#slider1"));
 
-new tabMenu(document.querySelector("#tab"));
-new tabMenu(document.querySelector("#tab1"));
+new tabMenu(document.querySelector("#tab"), imageSources);
+new tabMenu(document.querySelector("#tab1"), imageSources);
