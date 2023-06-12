@@ -1,20 +1,25 @@
 class Father {
-  constructor(elementWrapper) {
-    this.currentImgIndex = 0;
+  constructor(elementWrapper, imgArr) {
     this.elementWrapper = elementWrapper;
+    this.imgArr = imgArr
+  }
+
+  allImageLength() {
+    return this.imgArr.length;
   }
 }
 
 class Carousel extends Father {
   constructor(slider, imageArr) {
-    super(slider);
+    super(slider, imageArr);
     this.currentShowType = 1;
-    this.generateHTML(imageArr);
+    this.currentImgIndex = 0;
+    this.generateHTML();
     this.getElements();
     this.init();
   }
 
-  generateHTML(imageSource) {
+  generateHTML() {
     const labelElement = document.createElement("label");
     labelElement.setAttribute("class", "selectTypeShow");
     labelElement.textContent = "Change type show: ";
@@ -72,9 +77,9 @@ class Carousel extends Father {
     const imgBlockDiv = document.createElement("div");
     imgBlockDiv.setAttribute("class", "img__block");
 
-    for (let j = 0; j < imageSource.length; j++) {
+    for (let j = 0; j < this.allImageLength(); j++) {
       let imgElement = document.createElement("img");
-      imgElement.setAttribute("src", imageSource[j]);
+      imgElement.setAttribute("src", this.imgArr[j]);
       imgElement.setAttribute("alt", "empty");
       imgBlockDiv.appendChild(imgElement);
     }
@@ -116,12 +121,8 @@ class Carousel extends Father {
     this.updateStyleForImage();
   }
 
-  getAllImgLength() {
-    return this.allImg.length;
-  }
-
   getMaxImgIndex() {
-    return this.getAllImgLength() - 1;
+    return this.allImageLength() - 1;
   }
 
   generateBtn() {
@@ -130,7 +131,7 @@ class Carousel extends Father {
     const active = " ● ";
     const notActive = " ○ ";
 
-    for (let i = 0; i < this.getAllImgLength(); i += 1) {
+    for (let i = 0; i < this.allImageLength(); i += 1) {
       itemsArr.push(notActive);
     }
 
@@ -159,7 +160,7 @@ class Carousel extends Father {
     }
     if (this.currentShowType === 3) {
       this.imgBlock.style.transform = `translate3d(${
-        -(1330 / 3) * this.currentImgIndex
+        -(1340 / 3) * this.currentImgIndex
       }px, 0px, 0px)`;
     }
   }
@@ -234,13 +235,13 @@ class Carousel extends Father {
 
 class tabMenu extends Father {
   constructor(elTabMenu, imgArr) {
-    super(elTabMenu);
-    this.generateHtml(imgArr);
+    super(elTabMenu, imgArr);
+    this.generateHtml();
     this.getElements();
     this.init();
   }
 
-  generateHtml(imgArr) {
+  generateHtml() {
     const tabMenuDiv = document.createElement("div");
     tabMenuDiv.setAttribute("class", "tab-menu");
 
@@ -252,9 +253,9 @@ class tabMenu extends Father {
     const bodyDiv = document.createElement("div");
     bodyDiv.setAttribute("class", "tab-menu__body");
 
-    for (let j = 0; j < imgArr.length; j++) {
+    for (let j = 0; j < this.allImageLength(); j++) {
       const imgElement = document.createElement("img");
-      imgElement.setAttribute("src", imgArr[j]);
+      imgElement.setAttribute("src", this.imgArr[j]);
       imgElement.setAttribute("alt", "empty");
 
       if (j === 0) {
@@ -283,10 +284,6 @@ class tabMenu extends Father {
       this.activatedButtonsForHeader.bind(this)
     );
     this.generateTabMenuButtons();
-  }
-
-  allImageLength() {
-    return this.allImage.length;
   }
 
   generateTabMenuButtons() {
