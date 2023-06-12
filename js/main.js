@@ -6,11 +6,83 @@ class Father {
 }
 
 class Carousel extends Father {
-  constructor(slider) {
+  constructor(slider, imageArr) {
     super(slider);
     this.currentShowType = 1;
+    this.generateHTML(imageArr);
     this.getElements();
     this.init();
+  }
+
+  generateHTML(imageSource) {
+    const labelElement = document.createElement("label");
+    labelElement.setAttribute("class", "selectTypeShow");
+    labelElement.textContent = "Change type show: ";
+
+    const selectElement = document.createElement("select");
+    selectElement.setAttribute("name", "typeShow");
+    selectElement.setAttribute("class", "typeShowImg");
+
+    const optionValues = ["1", "3"];
+
+    for (let i = 0; i < optionValues.length; i++) {
+      const optionElement = document.createElement("option");
+      optionElement.setAttribute("value", optionValues[i]);
+      optionElement.textContent = optionValues[i];
+      selectElement.appendChild(optionElement);
+    }
+
+    labelElement.appendChild(selectElement);
+
+    const sliderDiv = document.createElement("div");
+    sliderDiv.setAttribute("class", "slider__block");
+
+    const btnBackDiv = document.createElement("div");
+    btnBackDiv.setAttribute("class", "btn__back");
+
+    const btnBackInnerDiv = document.createElement("div");
+    btnBackInnerDiv.setAttribute("class", "btn");
+    btnBackInnerDiv.textContent = "<";
+
+    btnBackDiv.appendChild(btnBackInnerDiv);
+
+    sliderDiv.appendChild(btnBackDiv);
+
+    const btnNextDiv = document.createElement("div");
+    btnNextDiv.setAttribute("class", "btn__next");
+
+    const btnNextInnerDiv = document.createElement("div");
+    btnNextInnerDiv.setAttribute("class", "btn");
+    btnNextInnerDiv.textContent = ">";
+
+    btnNextDiv.appendChild(btnNextInnerDiv);
+
+    sliderDiv.appendChild(btnNextDiv);
+
+    const btnBlockDiv = document.createElement("div");
+    btnBlockDiv.setAttribute("class", "btn__block");
+
+    const btnBlockFieldDiv = document.createElement("div");
+    btnBlockFieldDiv.setAttribute("class", "btn__block-field");
+
+    btnBlockDiv.appendChild(btnBlockFieldDiv);
+
+    sliderDiv.appendChild(btnBlockDiv);
+
+    const imgBlockDiv = document.createElement("div");
+    imgBlockDiv.setAttribute("class", "img__block");
+
+    for (let j = 0; j < imageSource.length; j++) {
+      let imgElement = document.createElement("img");
+      imgElement.setAttribute("src", imageSource[j]);
+      imgElement.setAttribute("alt", "empty");
+      imgBlockDiv.appendChild(imgElement);
+    }
+
+    sliderDiv.appendChild(imgBlockDiv);
+
+    this.elementWrapper.appendChild(labelElement);
+    this.elementWrapper.appendChild(sliderDiv);
   }
 
   getElements() {
@@ -225,12 +297,14 @@ class tabMenu extends Father {
       buttonsArr.push(i);
     }
 
-    buttonsArr.forEach((item,idx) => {
-      if (idx === 0){
-        buttonsString = `<span index="${item}" class="active">Image: ${item + 1} </span>\n`
+    buttonsArr.forEach((item, idx) => {
+      if (idx === 0) {
+        buttonsString = `<span index="${item}" class="active">Image: ${
+          item + 1
+        } </span>\n`;
       } else {
         buttonsString =
-            buttonsString + `<span index="${item}"> Image: ${item + 1}</span>\n`;
+          buttonsString + `<span index="${item}"> Image: ${item + 1}</span>\n`;
       }
     });
 
@@ -239,12 +313,12 @@ class tabMenu extends Father {
 
   activatedButtonsForHeader(event) {
     const target = event.target;
-    if (target.closest('span')){
-      this.getElements()
+    if (target.closest("span")) {
+      this.getElements();
 
-      this.allHeaderBtn.forEach(item => {
-        item.classList.remove('active')
-      })
+      this.allHeaderBtn.forEach((item) => {
+        item.classList.remove("active");
+      });
 
       this.allImage.forEach((item, idx) => {
         item.classList.remove("active");
@@ -253,11 +327,10 @@ class tabMenu extends Father {
         }
       });
 
-      target.classList.add('active')
+      target.classList.add("active");
     }
   }
 }
-
 
 const imageSources = [
   "https://wallpaperaccess.com/full/3209967.jpg",
@@ -265,11 +338,11 @@ const imageSources = [
   "https://wallpaperaccess.com/full/1492158.jpg",
   "https://wallpaperaccess.com/full/1492161.jpg",
   "https://wallpaperaccess.com/full/3209971.jpg",
-  "https://wallpaperaccess.com/full/898820.jpg"
+  "https://wallpaperaccess.com/full/898820.jpg",
 ];
 
-new Carousel(document.querySelector("#slider"));
-new Carousel(document.querySelector("#slider1"));
+new Carousel(document.querySelector("#slider"), imageSources);
+new Carousel(document.querySelector("#slider1"), imageSources);
 
 new tabMenu(document.querySelector("#tab"), imageSources);
 new tabMenu(document.querySelector("#tab1"), imageSources);
