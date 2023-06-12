@@ -69,3 +69,40 @@
   gap: 20px;
   transition: all, 1s;
 }
+
+.tab-menu {
+  margin-top: 40px;
+}
+
+.tab-menu .tab-menu__header {
+  padding-bottom: 5px;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 5px;
+}
+
+.tab-menu__header span {
+  padding: 0 5px;
+  cursor: pointer;
+}
+
+.tab-menu__header span:hover{
+  color: blueviolet;
+  transition: all, 0.5s;
+}
+
+.tab-menu__header span:not(:first-child) {
+  border-left: 1px solid lightgray;
+}
+
+.tab-menu__header .active {
+  color: blue;
+}
+
+.tab-menu .tab-menu__body img {
+  border-radius: 4px;
+  display: none;
+}
+
+.tab-menu .tab-menu__body .active {
+  display: block;
+}

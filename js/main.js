@@ -1,19 +1,51 @@
-import { selectorsQuery } from "./modules/consol.js";
-
-const selectors = selectorsQuery();
-
 class Father {
-  constructor() {
+  constructor(elementWrapper) {
     this.currentImgIndex = 0;
-    this.currentShowType = 1;
-    this.active = " ● ";
-    this.notActive = " ○ ";
+    this.elementWrapper = elementWrapper;
   }
 }
 
 class Carousel extends Father {
+  constructor(slider) {
+    super(slider);
+    this.currentShowType = 1;
+    this.getElements();
+    this.init();
+  }
+
+  getElements() {
+    this.allImg = this.elementWrapper.querySelectorAll(".img__block img");
+    this.nextBtn = this.elementWrapper.querySelector(".btn__next .btn");
+    this.backBtn = this.elementWrapper.querySelector(".btn__back .btn");
+    this.imgBlock = this.elementWrapper.querySelector(".img__block");
+    this.btnBottomBlock =
+      this.elementWrapper.querySelector(".btn__block-field");
+    this.typeShowSelect = this.elementWrapper.querySelector(".typeShowImg");
+  }
+
+  init() {
+    this.btnBottomBlock.addEventListener(
+      "click",
+      this.handleButtonClick.bind(this)
+    );
+    this.nextBtn.addEventListener(
+      "click",
+      this.handleNextButtonClick.bind(this)
+    );
+    this.backBtn.addEventListener(
+      "click",
+      this.handleBackButtonClick.bind(this)
+    );
+    this.typeShowSelect.addEventListener(
+      "change",
+      this.handleTypeShowSelectChange.bind(this)
+    );
+    this.updateDOM();
+    this.updateStyleForImage();
+  }
+
   getAllImgLength() {
-    return selectors.allImg.length;
+    return this.allImg.length;
   }
 
   getMaxImgIndex() {
@@ -23,12 +55,14 @@ class Carousel extends Father {
   generateBtn() {
     const itemsArr = [];
     let itemsString = "";
+    const active = " ● ";
+    const notActive = " ○ ";
 
     for (let i = 0; i < this.getAllImgLength(); i += 1) {
-      itemsArr.push(this.notActive);
+      itemsArr.push(notActive);
     }
 
-    itemsArr.splice(this.currentImgIndex, 1, this.active);
+    itemsArr.splice(this.currentImgIndex, 1, active);
 
     let index = 0;
 
@@ -42,17 +76,17 @@ class Carousel extends Father {
   }
 
   updateHtmlForButtons() {
-    selectors.btnBottomBlock.innerHTML = this.generateBtn();
+    this.btnBottomBlock.innerHTML = this.generateBtn();
   }
 
   updateImgBlockStyle() {
     if (this.currentShowType === 1) {
-      selectors.imgBlock.style.transform = `translate3d(${
+      this.imgBlock.style.transform = `translate3d(${
         -1300 * this.currentImgIndex
       }px, 0px, 0px)`;
     }
     if (this.currentShowType === 3) {
-      selectors.imgBlock.style.transform = `translate3d(${
+      this.imgBlock.style.transform = `translate3d(${
         -(1330 / 3) * this.currentImgIndex
       }px, 0px, 0px)`;
     }
@@ -118,55 +152,87 @@ class Carousel extends Father {
   }
 
   updateStyleForImage() {
-    selectors.allImg.forEach((item) => {
+    this.allImg.forEach((item) => {
       item.style.width = `${100 / this.currentShowType}%`;
       item.style.borderRadius = "4px";
       item.style.height = "100%";
     });
   }
+}
+
+class tabMenu extends Father {
+  constructor(tabMenu) {
+    super(tabMenu);
+    this.getElements();
+    this.init();
+    this.generateTabMenuButtons();
+  }
+
+  getElements() {
+    this.headerTab = this.elementWrapper.querySelector(".tab-menu__header");
+    this.allHeaderBtn = this.elementWrapper.querySelectorAll(
+      ".tab-menu__header span"
+    );
+    this.allImage = this.elementWrapper.querySelectorAll(".tab-menu__body img");
+  }
 
   init() {
-    selectors.btnBottomBlock.addEventListener(
+    this.headerTab.addEventListener(
       "click",
-      this.handleButtonClick.bind(this)
+      this.activatedButtonsForHeader.bind(this)
     );
-    selectors.nextBtn.addEventListener(
-      "click",
-      this.handleNextButtonClick.bind(this)
-    );
-    selectors.backBtn.addEventListener(
-      "click",
-      this.handleBackButtonClick.bind(this)
-    );
-    selectors.typeShowSelect.addEventListener(
-      "change",
-      this.handleTypeShowSelectChange.bind(this)
-    );
-    this.updateDOM();
-    this.updateStyleForImage();
+  }
+
+  allImageLength() {
+    return this.allImage.length;
+  }
+
+  generateTabMenuButtons() {
+    const buttonsArr = [];
+    let buttonsString = "";
+
+    for (let i = 0; i < this.allImageLength(); i += 1) {
+      buttonsArr.push(i);
+    }
+
+    buttonsArr.forEach((item,idx) => {
+      if (idx === 0){
+        buttonsString = `<span index="${item}" class="active">Image: ${item + 1} </span>\n`
+      } else {
+        buttonsString =
+            buttonsString + `<span index="${item}"> Image: ${item + 1}</span>\n`;
+      }
+    });
+
+    this.headerTab.innerHTML = buttonsString;
+  }
+
+  activatedButtonsForHeader(event) {
+    const target = event.target;
+    if (target.closest('span')){
+      this.getElements()
+
+      console.log(event.target);
+      console.log(this.allHeaderBtn);
+
+      this.allHeaderBtn.forEach(item => {
+        item.classList.remove('active')
+      })
+
+      this.allImage.forEach((item, idx) => {
+        item.classList.remove("active");
+        if (idx === +target.attributes.index.value) {
+          item.classList.add("active");
+        }
+      });
+
+      target.classList.add('active')
+    }
   }
 }
 
-const NewCarousel = new Carousel();
-NewCarousel.init();
+new Carousel(document.querySelector("#slider"));
+new Carousel(document.querySelector("#slider1"));
 
-// class Father {}
-//
-// class Slider extends Father {
-//   #currentImgIndex = 0;
-//   currentShowType = 1;
-//   allImgLength = selectors.allImg.length;
-//   maxImgIndex = this.allImgLength - 1;
-//   active = " ● ";
-//   notActive = " ○ ";
-// }
-// class TabMenu extends Father {
-//
-// }
-//
-// const Sli = new Father();
-//
-// const test = new Slider();
-// const test2 = new Slider();
-//
-// console.log(test2.currentImgIndex)
+new tabMenu(document.querySelector("#tab"));
+new tabMenu(document.querySelector("#tab1"));
